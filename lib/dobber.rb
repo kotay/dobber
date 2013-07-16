@@ -45,7 +45,7 @@ module Dobber
       end
 
       healthy = snitch_page.search('.periods').flat_map { |p|
-        p.search('.healthy').map {|f| {:expected => f.attributes["data-key"].value, :sent => f.search(".period-details").search("strong").text} }
+        p.search('.healthy').map {|f| {:expected => f.attributes["data-key"].value, :sent => f.search(".period-details").search("strong").map(&:text)} }
       }
       failed = snitch_page.search('.periods').flat_map { |p|
         p.search('.failed').map {|f| f.attributes["data-key"].value }
