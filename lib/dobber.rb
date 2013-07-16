@@ -22,7 +22,7 @@ module Dobber
     def initialize(login, password, snitch_id)
       @login        = login
       @password     = password
-      @snitch_url   = "https://deadmanssnitch.com/snitches/#{snitch_id}"
+      @snitch_url   = "http://deadmanssnitch.com/snitches/#{snitch_id}"
     end
 
     def status
@@ -33,7 +33,11 @@ module Dobber
       form.send("user[password]",@password)
       my_snitch     = agent.submit(form)
       snitch_page   = agent.get(@snitch_url)
-
+      
+      if snitch_page.title =~ /^(\s*)Sign In/
+        raise "Login failed for user #{@login}"
+      end
+      
       if snitch_page.search('.snitch').first.attributes["class"].value =~ /healthy/
         is_healthy = true
       else
