@@ -9,4 +9,5 @@ Gem::Specification.new do |s|
   s.version            = "0.1.0"
   s.platform           = Gem::Platform::RUBY
   s.files              = Dir.glob("lib/**/*") + %w[LICENSE README.md]
+  s.add_dependency 'mechanize'
 end
