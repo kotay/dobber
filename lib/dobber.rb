@@ -50,6 +50,9 @@ module Dobber
       failed = snitch_page.search('.periods').flat_map { |p|
         p.search('.failed').map {|f| f.attributes["data-key"].value }
       }
+      chrono = snitch_page.search('.period').map { |p|
+        {p.attributes["data-key"].value => p.attributes["class"].value =~ /failed/ ? "dead" : "alive"}
+      }
       last_check_at     = snitch_page.search('.lcd').children.search("time").first.attributes["datetime"].value
       last_check_human  = snitch_page.search('.lcd').children.search("time").first.child.text
       {
@@ -58,6 +61,7 @@ module Dobber
         last_check_human:     last_check_human,
         healthy:              healthy,
         failed:               failed,
+        chrono:               chrono,
       }
     end
   end
